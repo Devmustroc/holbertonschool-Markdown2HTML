@@ -1,4 +1,7 @@
 #!/usr/bin/pyhton3
+"""
+Converts a markdown file to html
+"""
 import sys
 import os
 import markdown
