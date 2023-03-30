@@ -4,14 +4,16 @@
 import sys
 import re
 
-def parse_heading(line):
-    """Parse a heading line and return the HTML equivalent"""
-    match = re.match(r"^(#+)\s+(.+)$", line)
+
+def parse_headings(ln):
+    """Parses a ln of Markdown for headings and returns the corresponding HTML"""
+    match = re.match(r'^(#{1,6})\s+(.*)', ln)
     if match:
-        level = len(match.grou(1))
+        level = len(match.group(1))
         content = match.group(2)
-        return f"<h{level}>{content}</h{level}>"
+        return "<h{0}>{1}</h{0}>".format(level, content)
     return None
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -23,12 +25,12 @@ if __name__ == "__main__":
 
     try:
         with open(markdown_file, "r") as f:
-            with open(output_file, "w") as md_file, open(output_file, "w") as html_file:
+            with open(markdown_file, 'r') as md_file, open(output_file, 'w') as html_file:
                 for line in md_file:
                     line = line.rstrip()
-                    html = parse_heading(line)
+                    html = parse_headings(line)
                     if html:
-                        html_file.write(f"{html}\n")
+                        html_file.write(html + '\n')
 
     except FileNotFoundError:
         sys.stderr.write("fMissing {markdown_file}\n")
