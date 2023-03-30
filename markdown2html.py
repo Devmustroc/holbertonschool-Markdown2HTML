@@ -15,7 +15,7 @@ if __name__ == "__main__":
         with open(markdown_file, 'r') as f:
             pass
     except FileNotFoundError:
-        sys.stderr.write("Missing {}\n".format(markdown_file))
+        sys.stderr.write("fMissing {markdown_file}\n")
         sys.exit(1)
 
     sys.exit(0)
