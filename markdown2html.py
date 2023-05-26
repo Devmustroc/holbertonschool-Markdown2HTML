@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-"""markdown2html.py - converts a Markdown file to HTML"""
 import os
 import sys
 
@@ -17,7 +16,7 @@ def input_check():
 def file_to_array():
     """Reads the file and returns an array"""
     with open(sys.argv[1], 'r') as f:
-        lines = [f.readlines()]
+        lines = f.readlines()  # Remove the extra list wrapping
     return lines
 
 
@@ -27,15 +26,16 @@ def array_parser(lines):
     i = 0
 
     while i < len(lines):
-        if "#" in lines[i]:
-            result += "<h{}>{}</h{}>".format(lines[i].count("#"), lines[i].replace("#", "").strip(),
-                                             lines[i].count("#"))
-        elif "-" in lines[i]:
+        if lines[i].startswith("- "):
             result += "<ul>\n"
-            while "-" in lines[i]:
-                result += "<li>{}</li>\n".format(lines[i].replace("-", "").strip())
+            while i < len(lines) and lines[i].startswith("- "):
+                line = lines[i].replace("- ", "").strip()
+                result += "<li>{}</li>\n".format(line)
                 i += 1
             result += "</ul>\n"
+        elif "#" in lines[i]:
+            result += "<h{}>{}</h{}>".format(lines[i].count("#"), lines[i].replace("#", "").strip(),
+                                             lines[i].count("#"))
         else:
             result += "<p>{}</p>\n".format(lines[i].strip())
         i += 1
